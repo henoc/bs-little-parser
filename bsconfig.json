@@ -1,0 +1,17 @@
+{
+  "name": "bs-little-parser",
+  "sources": [
+    "src",
+    {
+      "dir" : "test",
+      "type" : "dev"
+    }
+  ],
+  "namespace": true,
+  "package-specs": {
+    "module": "commonjs"
+  },
+  "suffix": ".bs.js",
+  "bs-dependencies": [
+  ]
+}
