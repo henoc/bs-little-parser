@@ -7,6 +7,10 @@
     "watch": "bsb -make-world -w",
     "test": "jest"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Henoc/bs-little-parser.git"
+  },
   "keywords": [
     "BuckleScript",
     "Reason"
