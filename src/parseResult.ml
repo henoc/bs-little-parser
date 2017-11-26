@@ -7,6 +7,11 @@ let getResult parseResult =
   | ParseSuccess (p, _) -> Some p
   | ParseFailure (_, _) -> None
 
+let getIndex parseResult =
+  match parseResult with
+  | ParseSuccess (_, i) -> i.index
+  | ParseFailure (_, i) -> i.index
+
 let map f parseResult =
   match parseResult with
   | ParseSuccess (p, q)-> ParseSuccess ((f p), q)

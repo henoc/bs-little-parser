@@ -3,7 +3,7 @@
   "sources": [
     "src",
     {
-      "dir" : "test",
+      "dir" : "__tests__",
       "type" : "dev"
     }
   ],
@@ -13,5 +13,6 @@
   },
   "suffix": ".bs.js",
   "bs-dependencies": [
+    "bs-jest"
   ]
 }
