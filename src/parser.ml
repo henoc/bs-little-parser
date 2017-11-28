@@ -58,6 +58,8 @@ let optional p = fun input -> match p input with
 | ParseResult.ParseFailure _ -> ParseResult.ParseSuccess (None, input)
 | ParseResult.ParseSuccess (r, i) -> ParseResult.ParseSuccess (Some r, i)
 
+let opt p = optional p
+
 let andPred p = fun input -> match p input with
 | ParseResult.ParseSuccess (r, _) -> ParseResult.ParseSuccess (r, input)
 | others -> others
@@ -105,6 +107,8 @@ let charParser c =
         input
       )
 
+let chr c = charParser c
+
 let stringParser s =
   fun (rawInput: Input.t) ->
     let input = skipWhitespace rawInput.whitespace rawInput in
@@ -119,3 +123,5 @@ let stringParser s =
         "remined text doesn't start with " ^ s,
         input
       )
+
+let str s = stringParser s

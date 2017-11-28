@@ -37,3 +37,13 @@ let () =
       expect (ParseResult.getIndex result) |> toBe 3
     | None -> assert false
   );
+
+  test "<*, *>" (fun () ->
+    let input = Input.{text = "abcdefg"; index = 0; whitespace = " "} in
+    let result = ((str "abc") *> (str "def") <* (str "g")) input in
+    match ParseResult.getResult result with
+    | Some x ->
+      expect x |> toEqual ("def") |> ignore;
+      expect (ParseResult.getIndex result) |> toBe 7
+    | None -> assert false
+  );
