@@ -125,3 +125,18 @@ let stringParser s =
       )
 
 let str s = stringParser s
+
+let regexParser (r: Js.Re.t) =
+  fun (rawInput: Input.t) ->
+    let input = skipWhitespace rawInput.whitespace rawInput in
+    let substr = Js.String.substr input.index input.text in
+    match Js.Re.exec substr r with
+    | None -> ParseResult.ParseFailure ("remind text doesn't start with regex", input)
+    | Some result -> if (Js.Re.index result) != 0 then ParseResult.ParseFailure ("remind text doesn't start with regex", input)
+      else 
+      match Js.Nullable.to_opt (Js.Re.captures result).(0) with
+      | None -> ParseResult.ParseFailure ("remind text doesn't start with regex", input)
+      | Some matchedString ->
+        ParseResult.ParseSuccess (matchedString, {input with index=input.index + (String.length matchedString)})
+
+let regex r = regexParser r

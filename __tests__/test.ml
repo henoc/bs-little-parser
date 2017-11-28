@@ -47,3 +47,13 @@ let () =
       expect (ParseResult.getIndex result) |> toBe 7
     | None -> assert false
   );
+
+  test "regex" (fun () ->
+    let input = Input.{text = "abcdefg"; index = 0; whitespace = " "} in
+    let result = regex (Js.Re.fromString "[abcde]+") input in
+    match ParseResult.getResult result with
+    | Some x ->
+      expect x |> toEqual ("abcde") |> ignore;
+      expect (ParseResult.getIndex result) |> toBe 5
+    | None -> assert false
+  )
