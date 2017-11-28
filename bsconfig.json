@@ -12,7 +12,7 @@
     "module": "commonjs"
   },
   "suffix": ".bs.js",
-  "bs-dependencies": [
+  "bs-dev-dependencies": [
     "bs-jest"
   ]
 }
