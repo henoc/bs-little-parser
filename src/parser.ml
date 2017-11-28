@@ -74,6 +74,12 @@ let into p fnq = fun input -> match p input with
 
 let (>>) p fnq = into p fnq
 
+let map p fn = fun input -> match p input with
+| ParseResult.ParseSuccess (r, i) -> ParseResult.ParseSuccess (fn r, i)
+| others -> others
+
+let (^^) p fn = map p fn
+
 (** internal use only *)
 let skipWhitespace (whitepspace: string) (input: Input.t) =
   let rec listChar str = match str with
