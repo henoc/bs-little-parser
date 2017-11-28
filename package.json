@@ -1,6 +1,6 @@
 {
   "name": "bs-little-parser",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "scripts": {
     "clean": "bsb -clean-world",
     "build": "bsb -make-world",

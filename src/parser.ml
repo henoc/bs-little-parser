@@ -74,9 +74,7 @@ let into p fnq = fun input -> match p input with
 
 let (>>) p fnq = into p fnq
 
-let map p fn = fun input -> match p input with
-| ParseResult.ParseSuccess (r, i) -> ParseResult.ParseSuccess (fn r, i)
-| others -> others
+let map p fn = fun input -> ParseResult.map fn (p input)
 
 let (^^) p fn = map p fn
 
