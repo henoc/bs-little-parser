@@ -13,10 +13,36 @@ let andThen p q = fun input ->
     | ParseResult.ParseFailure (message, input) -> ParseResult.ParseFailure (message, input))
   | ParseResult.ParseFailure (message, input) -> ParseResult.ParseFailure (message, input)
 
+let (<*>) p q = andThen p q
+
+let onlyLeft p q = fun input ->
+  match p input with
+  | ParseResult.ParseSuccess (result1, input2) ->
+    (match q input2 with
+    | ParseResult.ParseSuccess (_, input3) ->
+        ParseResult.ParseSuccess ( result1, input3)
+    | ParseResult.ParseFailure (message, input) -> ParseResult.ParseFailure (message, input))
+  | ParseResult.ParseFailure (message, input) -> ParseResult.ParseFailure (message, input)
+
+let ( <* ) p q = onlyLeft p q
+
+let onlyRight p q = fun input ->
+  match p input with
+  | ParseResult.ParseSuccess (_, input2) ->
+    (match q input2 with
+    | ParseResult.ParseSuccess (result2, input3) ->
+        ParseResult.ParseSuccess ( result2, input3)
+    | ParseResult.ParseFailure (message, input) -> ParseResult.ParseFailure (message, input))
+  | ParseResult.ParseFailure (message, input) -> ParseResult.ParseFailure (message, input)
+
+let ( *> ) p q = onlyRight p q
+
 let orElse p q = fun input ->
   match p input with
   | ParseResult.ParseSuccess (s, t) -> ParseResult.ParseSuccess (s, t)
   | ParseResult.ParseFailure _ -> q input
+
+let (<|>) p q = orElse p q
 
 let rep p = fun input ->
   let rec loop acc input = match p input with
@@ -39,6 +65,12 @@ let andPred p = fun input -> match p input with
 let notPred p = fun input -> match p input with
 | ParseResult.ParseSuccess (_, i) -> ParseResult.ParseFailure ("notPred failure", i)
 | ParseResult.ParseFailure _ -> ParseResult.ParseSuccess (None, input)
+
+let into p fnq = fun input -> match p input with
+| ParseResult.ParseSuccess (r, i) -> (fnq r) i
+| others -> others
+
+let (>>) p fnq = into p fnq
 
 (** internal use only *)
 let skipWhitespace (whitepspace: string) (input: Input.t) =
